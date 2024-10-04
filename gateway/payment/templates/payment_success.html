@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-white min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+        <div class="text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Payment Successful!</h1>
+            <p class="text-gray-600 mb-8">Thank you for your purchase. Your transaction has been completed successfully.</p>
+        </div>
+        <div class="border-t border-gray-200 pt-4">
+            <dl class="divide-y divide-gray-200">
+                <div class="py-3 flex justify-between">
+                    <dt class="text-sm font-medium text-gray-500">Transaction ID</dt>
+                    <dd class="text-sm text-gray-900">{{ order_id }}</dd>
+                </div>
+                <div class="py-3 flex justify-between">
+                    <dt class="text-sm font-medium text-gray-500">Amount Paid</dt>
+                    <dd class="text-sm text-gray-900">₹{{ amount }}</dd>
+                </div>
+                <div class="py-3 flex justify-between">
+                    <dt class="text-sm font-medium text-gray-500">Payment Method</dt>
+                    <dd class="text-sm text-gray-900">{{ payment_method }}</dd>
+                </div>
+            </dl>
+        </div>
+        <div class="mt-8">
+            <a href="#" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-md text-center transition duration-300 ease-in-out">
+                View Order Details
+            </a>
+        </div>
+    </div>
+</body>
+</html>

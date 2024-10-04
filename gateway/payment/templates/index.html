@@ -1,0 +1,127 @@
+{% load static %}
+<html lang="en"></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GFG</title>
+    <style>
+      
+      * {
+        box-sizing: border-box;
+        padding: 0px;
+        margin: 0px;
+        font-family: cursive;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background-color: #f1f5f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        background-color: white;
+        padding: 25px;
+        border: 1px solid #bbbbbb;
+        border-radius: 5px;
+        box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 25%);
+      }
+      .title {
+        text-align: center;
+        letter-spacing: 1px;
+      }
+      .muted {
+        color: #8e7f7f;
+        display: block;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      .btn_container {
+        padding: 20px;
+        text-align: center;
+      }
+      .btn {
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 4px 8px;
+        background-color: #ffaaa7;
+        color: white;
+        font-size: 1.2em;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1 class="title">Buy Me a Chai ☕</h1>
+      <small class="muted"
+        >If you like my work, you can support me by donating ₹200</small
+      >
+      <div class="btn_container">
+        <!-- Payment Button -->
+        <button class="btn" id="pay-btn">Buy❤️</button>
+      </div>
+    </div>
+  </body>
+  
+  <!-- Razorpay's Javascript code. -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+        var options = {
+            'key': '{{ razorpay_key_id }}', // Enter the Key ID generated from the Dashboard
+            'amount': '{{ amount }}', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            'currency': 'INR',
+            'name': 'CADL', // Your business name
+            'image': 'https://cadl.in/public/website/favicon2.png',
+            'order_id': '{{ order_id }}', // Dynamically set the order ID from PHP
+            'callback_url': `http://${window.location.host}/payment/success/`,
+            'prefill': {
+                'name': 'Abhishek', // Use the customer's name from the POST parameter
+                'email': 'abhi@123.com', // Use the customer's email from the POST parameter
+                'contact': '1234567890' // Use the customer's phone number from the POST parameter
+            },
+            'notes': {
+                'address': 'Razorpay Corporate Office'
+            },
+            'theme': {
+                'color': '#3399cc'
+            },
+            'handler': function (response){
+                  // Redirect to the payment success page with payment details
+                  window.location.href = `/payment/success/?payment_id={{razorpay_payment_id}}&order_id={{razorpay_order_id}}&signature={{razorpay_signature}}`;
+              },
+            'modal': {
+                'ondismiss': function() {
+                    // Redirect to home page on modal close
+                    window.location.href = '/';
+                }
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function(response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+
+            // Delay the redirect to allow time for alerts
+            setTimeout(function() {
+                window.location.href = '/';
+            }, 1000); // Adjust the delay time (in milliseconds) as needed
+        });
+
+    var rzp1 = new Razorpay(options);
+    document.getElementById("pay-btn").onclick = function (e) {
+      e.preventDefault();
+      rzp1.open();
+    };
+  </script>
+</html>
